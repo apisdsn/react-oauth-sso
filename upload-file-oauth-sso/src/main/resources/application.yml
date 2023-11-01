@@ -1,0 +1,38 @@
+spring:
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: https://universitasteknologidigitalindonesia-16iese.zitadel.cloud
+          jwk-set-uri: https://universitasteknologidigitalindonesia-16iese.zitadel.cloud/oauth/v2/keys
+      opaque-token:
+        introspection-uri: https://universitasteknologidigitalindonesia-16iese.zitadel.cloud/oauth/v2/introspect
+        client-id: 238809492542816614@sso
+        client-secret: ekKrsShrgeXjagljEZ03Dci1D6NiA8Gl1GdPTwvxLdbEkGxdoUT17O7QBIw74XIg
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/image_upload?serverTimezone=UTC
+    username: root
+    password:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 9090
+
+zitadel:
+  iam:
+    org:
+      project:
+        roles-attribute: urn:zitadel:iam:org:project:238279061330198535:roles
