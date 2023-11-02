@@ -19,13 +19,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Controller
 @RequestMapping("/api/v1/image")
+@CrossOrigin("*")
 public class FileController {
 
     @Autowired
     private FileStorageService storageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("image") MultipartFile image, @RequestParam("title") String title, @RequestParam("content") String content) {
+    public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("image") MultipartFile image,
+            @RequestParam("title") String title, @RequestParam("content") String content) {
 
         String message = "";
 
@@ -45,7 +47,8 @@ public class FileController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseMessage> updateFile(@RequestParam("image") MultipartFile image, @RequestParam("title") String title, @RequestParam("content") String content, @PathVariable String id) {
+    public ResponseEntity<ResponseMessage> updateFile(@RequestParam("image") MultipartFile image,
+            @RequestParam("title") String title, @RequestParam("content") String content, @PathVariable String id) {
         String message = "";
         try {
             WebRequest request = new WebRequest();
@@ -64,7 +67,7 @@ public class FileController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ResponseMessage> delteFile(@PathVariable("id") String id){
+    public ResponseEntity<ResponseMessage> delteFile(@PathVariable("id") String id) {
         String message = "";
         try {
             storageService.delete(id);
@@ -98,7 +101,6 @@ public class FileController {
 
         return ResponseEntity.status(HttpStatus.OK).body(files);
     }
-
 
     @GetMapping("/files/{id}")
     public ResponseEntity<byte[]> getFile(@PathVariable String id) {

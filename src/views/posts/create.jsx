@@ -47,6 +47,7 @@ export default function PostCreate() {
                 <div className="mb-3">
                   <label className="form-label fw-bold">Image</label>
                   <input
+                    accept="image/*"
                     type="file"
                     onChange={handleFileChange}
                     className="form-control"

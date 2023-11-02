@@ -1,17 +1,10 @@
-//import useState dan useEffect
 import { useState, useEffect } from "react";
-
-//import api
 import api from "../../api";
-
-//import Link
 import { Link } from "react-router-dom";
 
 export default function PostIndex() {
-  //ini state
   const [posts, setPosts] = useState([]);
 
-  //define method
   const fetchDataPosts = async () => {
     try {
       const response = await api.get("/files");
@@ -20,17 +13,13 @@ export default function PostIndex() {
       console.error("Error fetching data:", error);
     }
   };
-  //run hook useEffect
+
   useEffect(() => {
-    //call method "fetchDataPosts"
     fetchDataPosts();
   }, []);
 
-  //method deletePost
   const deletePost = async (id) => {
-    //delete with api
     await api.delete(`/delete/${id}`).then(() => {
-      //call method "fetchDataPosts"
       fetchDataPosts();
     });
   };
@@ -67,6 +56,7 @@ export default function PostIndex() {
                             alt={post.title}
                             width="200"
                             className="rounded"
+                            onClick={() => handleImageClick(post.id)}
                           />
                         </td>
                         <td>{post.title}</td>
