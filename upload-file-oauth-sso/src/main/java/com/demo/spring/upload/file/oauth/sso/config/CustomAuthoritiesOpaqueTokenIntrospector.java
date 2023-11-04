@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 @Configuration
 @Component
 public class CustomAuthoritiesOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
+    
     @Autowired
     private AuthoritiesExtractor authoritiesExtractor;
 

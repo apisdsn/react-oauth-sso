@@ -7,6 +7,7 @@ const Callback = ({ auth, setAuth, userManager }) => {
     const handleCallback = async () => {
       try {
         await userManager.signinRedirectCallback().then((user) => {
+          console.log("User after signinRedirectCallback: ", user);
           if (user) {
             setAuth(true);
           }

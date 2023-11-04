@@ -1,9 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { UserManager, WebStorageStateStore } from "oidc-client-ts";
 import { Link } from "react-router-dom";
+import { UserManager, WebStorageStateStore } from "oidc-client-ts";
+import authConfig from "./authConfig";
 import Routes from "./routes";
+import { useMemo } from "react";
 
-export default function App({ handleLogout, userManager }) {
+export default function App() {
+  const userManager = useMemo(
+    () =>
+      new UserManager({
+        userStore: new WebStorageStateStore({ store: window.localStorage }),
+        ...authConfig,
+      })
+  );
+
+  const handleLogout = () => {
+    userManager.signoutRedirect();
+  };
   return (
     <>
       <div>

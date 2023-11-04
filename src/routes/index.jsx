@@ -1,35 +1,23 @@
-import React, { useState, useEffect } from "react";
-
-//import react router dom
+import React, { useState, useEffect, useMemo } from "react";
 import { Routes, Route } from "react-router-dom";
-
 import Login from "../views/posts/login.jsx";
-
-//import view homepage
 import Home from "../views/home.jsx";
-
-//import view posts index
 import PostIndex from "../views/posts/index.jsx";
-
-//import view post create
 import PostCreate from "../views/posts/create.jsx";
-
 import { UserManager, WebStorageStateStore } from "oidc-client-ts";
-
 import App from "../App.jsx";
-
 import authConfig from "../authConfig.js";
-
-//import view post edit
 import PostEdit from "../views/posts/edit.jsx";
-
 import Callback from "../views/posts/callback.jsx";
 
 function RoutesIndex() {
-  const userManager = new UserManager({
-    userStore: new WebStorageStateStore({ store: window.localStorage }),
-    ...authConfig,
-  });
+  const userManager = useMemo(
+    () =>
+      new UserManager({
+        userStore: new WebStorageStateStore({ store: window.localStorage }),
+        ...authConfig,
+      })
+  );
 
   function authorize() {
     userManager.signinRedirect({ state: "a2123a67ff11413fa19217a9ea0fbad5" });
@@ -40,17 +28,24 @@ function RoutesIndex() {
   }
 
   const [authenticated, setAuthenticated] = useState(null);
-  // const [userInfo, setUserInfo] = useState(null);
 
   useEffect(() => {
-    userManager.getUser().then((user) => {
-      if (user) {
-        setAuthenticated(true);
-      } else {
-        setAuthenticated(false);
+    const fetchData = async () => {
+      try {
+        const user = await userManager.getUser();
+        console.log("User ", user);
+        if (user) {
+          setAuthenticated(true);
+        } else {
+          setAuthenticated(false);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
-    });
-  }, [userManager]);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Routes>

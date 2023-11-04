@@ -1,27 +1,27 @@
 import axios from "axios";
 
-const accessToken = JSON.parse(
-  localStorage.getItem(
-    "oidc.user:https://universitasteknologidigitalindonesia-16iese.zitadel.cloud:233740103669860552@sso"
-  )
-)?.access_token;
+const getStoredToken = async () => {
+  const storedTokenKey =
+    "oidc.user:http://localhost:8080:238280183927341063@dev";
+  const storedToken = JSON.parse(localStorage.getItem(storedTokenKey));
 
-console.log(`Token dari local storage: ${accessToken}`);
+  if (!storedToken || !storedToken.access_token) {
+    console.error("Token tidak ditemukan. Harap login terlebih dahulu.");
+    return null;
+  }
 
-if (!accessToken) {
-  console.error("Token tidak ditemukan. Harap login terlebih dahulu.");
-}
-
-const config = {
-  headers: {
-    Authorization: `Bearer ${accessToken}`,
-    "Access-Control-Allow-Origin": "*",
-  },
+  return storedToken.access_token;
 };
+
+const token = await getStoredToken();
+console.log("Ini Token dari async : ", token);
 
 const Api = axios.create({
   baseURL: "http://localhost:9090/api/v1/image",
-  ...config,
+  headers: {
+    Authorization: `Bearer ${token}`,
+    "Access-Control-Allow-Origin": "*",
+  },
 });
 
 export default Api;
