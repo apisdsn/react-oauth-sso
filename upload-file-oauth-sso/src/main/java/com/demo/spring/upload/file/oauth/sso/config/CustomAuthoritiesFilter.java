@@ -42,7 +42,7 @@ public class CustomAuthoritiesFilter extends GenericFilterBean {
             List<String> roles = authorities.stream().map(GrantedAuthority::getAuthority).toList();
             log.info("Roles: {}", roles);
 
-            if (requestedPath.startsWith("/api/admin") || requestedPath.startsWith("/**")) {
+            if (requestedPath.startsWith("/**") || requestedPath.startsWith("/api/v1/")) {
                 rolePathsMap.put("ROLE_ADMIN", List.of(requestedPath));
                 rolePathsMap.put("ROLE_MANAGER", List.of(requestedPath));
                 rolePathsMap.put("ROLE_USER", List.of(requestedPath));
